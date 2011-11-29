@@ -1,0 +1,5 @@
+Simple task organizer.
+An expample of WPF MVVM application.
+Tasks are stored in XML files using http://localhost/TaskRepositorySchema
+  (which is described in TaskRepositorySchema.xsd).
+Have a look at ExampleRepo.xml

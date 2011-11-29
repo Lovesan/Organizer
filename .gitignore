@@ -1,0 +1,16 @@
+*~
+*.tmp
+*.diff
+*.patch
+*.swp
+*.exe
+*.dll
+*.o
+*.obj
+*.res
+*.baml
+*.pdb
+*.suo
+*.user
+Organizer/bin
+Organizer/obj

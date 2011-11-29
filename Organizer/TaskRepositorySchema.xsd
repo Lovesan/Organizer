@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://localhost/TaskRepositorySchema"
+            targetNamespace="http://localhost/TaskRepositorySchema">
+
+  <xsd:element name="TaskRepository" type="tns:TaskRepository"/>
+ 
+  <xsd:complexType name="TaskRepository">
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element name="TaskCollection" type="tns:TaskCollection" form="qualified" />
+    </xsd:sequence>
+    <xsd:attribute name="Name" type="xsd:string" use="required"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="TaskCollection">
+    <xsd:choice minOccurs="0" maxOccurs="unbounded">
+      <xsd:element name="TaskCollection" type="tns:TaskCollection" form="qualified"/>
+      <xsd:element name="Task" type="tns:Task" form="qualified"/>
+    </xsd:choice>
+    <xsd:attribute name="Name" type="xsd:string" use="required"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Task">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="Name" type="xsd:string" use="required"/>
+        <xsd:attribute name="IsCompleted" type="xsd:boolean" use="optional" default="false"/>
+        <xsd:attribute name="DateTime" type="xsd:dateTime" use="required"/>        
+      </xsd:extension>
+    </xsd:simpleContent>    
+  </xsd:complexType>
+  
+</xsd:schema>

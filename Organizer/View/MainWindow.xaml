@@ -1,0 +1,106 @@
+﻿<!-- Copyright (C) 2011, Dmitry Ignatiev<lovesan.ru at gmail.com>
+    
+     Permission is hereby granted, free of charge, to any person
+     obtaining a copy of this software and associated documentation
+     files (the "Software"), to deal in the Software without
+     restriction, including without limitation the rights to use, copy,
+     modify, merge, publish, distribute, sublicense, and/or sell copies
+     of the Software, and to permit persons to whom the Software is
+     furnished to do so, subject to the following conditions:
+    
+     The above copyright notice and this permission notice shall be
+     included in all copies or substantial portions of the Software.
+    
+     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+     NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+     DEALINGS IN THE SOFTWARE -->
+
+<Window xmlns="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Organizer.ViewModel"
+        xmlns:vw="clr-namespace:Organizer.View"
+        x:Class="Organizer.View.MainWindow"
+        Icon="/Organizer;component/net_v_print.ico"
+        Title="Organizer"
+        Background="{x:Static SystemColors.ControlLightBrush}"
+        SnapsToDevicePixels="True">
+    <Window.Resources>
+        <Style x:Key="UnsavedRepoHeaderStyle"
+               TargetType="TextBlock">
+            <Setter Property="Foreground"
+                    Value="{x:Static SystemColors.HighlightBrush}"/>
+        </Style>
+        <DataTemplate x:Key="RepositoryTabTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           Text="{Binding Name, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                           x:Name="repoNameText"/>
+                <Button Grid.Column="1"
+                        Content="X"
+                        Cursor="Hand"
+                        Focusable="False"
+                        FontSize="9"
+                        Margin="5,0,0,0"
+                        Padding="0"
+                        FontWeight="Bold"
+                        Command="{Binding CloseCommand}"/>
+            </Grid>
+            <DataTemplate.Triggers>
+                <Trigger SourceName="repoNameText"
+                         Property="Validation.HasError"
+                         Value="True">
+                    <Setter TargetName="repoNameText"
+                            Property="ToolTip"
+                            Value="{Binding ElementName=repoNameText, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding IsSaved}"
+                             Value="False">
+                    <Setter TargetName="repoNameText"
+                            Property="Style"
+                            Value="{StaticResource UnsavedRepoHeaderStyle}"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RepositoryViewModel}">
+            <vw:RepositoryView />
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">                
+                <MenuItem Header="_New"
+                          Command="{Binding NewCommand}"/>
+                <MenuItem Header="_Open"
+                          Command="{Binding OpenCommand}"/>
+                <MenuItem Header="_Save"
+                          Command="{Binding SaveCommand}"/>
+                <MenuItem Header="Save_As"
+                          Command="{Binding SaveAsCommand}"/>
+                <MenuItem Header="E_xit"
+                          Command="{Binding CloseCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About"
+                          Command="{Binding AboutCommand}"/>
+            </MenuItem>
+        </Menu>
+        <TabControl Grid.Row="1"
+                    Background="{x:Static SystemColors.ControlLightBrush}"
+                    ItemsSource="{Binding Repositories}"
+                    ItemTemplate="{StaticResource RepositoryTabTemplate}"
+                    IsSynchronizedWithCurrentItem="True"/>
+    </Grid>
+</Window>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TaskRepository Name="ExampleRepo" xmlns="http://localhost/TaskRepositorySchema">
+  <TaskCollection Name="Homework" />
+  <TaskCollection Name="Random stuff">
+    <TaskCollection Name="Weird things">
+      <Task Name="Drink vodka" IsCompleted="false" DateTime="2012-12-31T23:59:59">Drink a lot of vodka!</Task>
+      <Task Name="Have hangover" IsCompleted="false" DateTime="2013-01-01T12:00:00">Bhew...</Task>
+    </TaskCollection>
+    <Task Name="Model the View" IsCompleted="true" DateTime="2011-11-29T00:00:00">YO DAWG SO I HEARD YOU LIKE MODELS
+  SO WE PUT MODEL IN YOUR VIEW
+    SO YOU CAN VIEW WHILE YOU MODEL AND YOU CAN MODEL WHILE YOU VIEW</Task>
+  </TaskCollection>
+</TaskRepository>
